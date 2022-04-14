@@ -1,5 +1,5 @@
 camel:
-  server-port: 5005
+  server-port: 5000
   springboot:
     main-run-controller: true
   dataformat:
@@ -33,7 +33,7 @@ mpesa:
     queue-timeout-url: /queuetimeout/callback
     result-url: /result/callback
 
-store:
+accounts:
   group:
     - name: roster
       business-short-code: 9383028
