@@ -42,6 +42,9 @@ public class SafaricomRoutesBuilder extends RouteBuilder {
     @Value("${mpesa.max-retry-count}")
     private Integer maxRetryCount;
 
+    @Value("${xyz}")
+    private Integer xyz;
+
     private final ObjectMapper objectMapper;
 
     private final CollectionResponseProcessor collectionResponseProcessor;
@@ -182,6 +185,7 @@ public class SafaricomRoutesBuilder extends RouteBuilder {
                 .id("buy-goods-base")
                 .log(LoggingLevel.INFO, "Starting buy goods flow")
                 .log(LoggingLevel.INFO, "Starting buy goods flow with retry count: " + maxRetryCount)
+                .log(LoggingLevel.INFO, "XYZ: " + xyz)
                 .to("direct:get-access-token")
                 .process(exchange -> exchange.setProperty(ACCESS_TOKEN, accessTokenStore.getAccessToken()))
                 .log(LoggingLevel.INFO, "Got access token, moving on to API call.")
