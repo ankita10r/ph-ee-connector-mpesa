@@ -8,17 +8,17 @@ import java.util.List;
 
 @Component
 @Configuration
-@ConfigurationProperties(prefix = "mpesa")
+@ConfigurationProperties(prefix = "ams")
 public class MpesaProps {
 
-    private List<MPESA> amsgroup;
+    private List<MPESA> group;
 
-    public List<MPESA> getAmsgroup() {
-        return amsgroup;
+    public List<MPESA> getGroup() {
+        return group;
     }
 
-    public void setAmsgroup(List<MPESA> amsgroup) {
-        this.amsgroup = amsgroup;
+    public void setGroup(List<MPESA> amsgroup) {
+        this.group = amsgroup;
     }
 
 
