@@ -22,6 +22,8 @@ operations:
   base-url: /api/v1/errorcode
   filter-path: /filter
 
+xyz: 1
+
 mpesa:
   max-retry-count: 2
   api:
