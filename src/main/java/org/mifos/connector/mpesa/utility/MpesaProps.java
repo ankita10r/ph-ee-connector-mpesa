@@ -8,7 +8,7 @@ import java.util.List;
 
 @Component
 @Configuration
-@ConfigurationProperties(prefix = "ams")
+@ConfigurationProperties(prefix = "store")
 public class MpesaProps {
 
     private List<MPESA> group;

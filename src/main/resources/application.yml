@@ -32,7 +32,8 @@ mpesa:
     transaction-callback: /buygoods/callback
     queue-timeout-url: /queuetimeout/callback
     result-url: /result/callback
-ams:
+
+store:
   group:
     - name: roster
       business-short-code: 9383028
