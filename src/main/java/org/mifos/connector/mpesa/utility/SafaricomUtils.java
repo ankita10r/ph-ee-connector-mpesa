@@ -66,9 +66,9 @@ public class SafaricomUtils {
         buyGoodsPaymentRequestDTO.setPartyA(payer);
         buyGoodsPaymentRequestDTO.setPhoneNumber(payer);
 
-        buyGoodsPaymentRequestDTO.setPartyB(Long.valueOf(mpesaProps.getTill()));
+        buyGoodsPaymentRequestDTO.setPartyB(Long.parseLong(mpesaProps.getTill()));
         logger.info("Business Shortcode" + mpesaProps.getBusinessShortCode());
-        buyGoodsPaymentRequestDTO.setBusinessShortCode(Long.valueOf(mpesaProps.getBusinessShortCode()));
+        buyGoodsPaymentRequestDTO.setBusinessShortCode(Long.parseLong(mpesaProps.getBusinessShortCode()));
 
         buyGoodsPaymentRequestDTO.setAmount(amount);
         buyGoodsPaymentRequestDTO.setPassword(getPassword(
