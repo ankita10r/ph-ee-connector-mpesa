@@ -1,5 +1,5 @@
 camel:
-  server-port: 5001
+  server-port: 5000
   springboot:
     main-run-controller: true
   dataformat:
@@ -38,23 +38,23 @@ mpesa:
 accounts:
   group:
     - name: "roster"
-      businessshortcode: ${ACCOUNTS.GROUP[0].SHORTCODE}
-      till: ${ACCOUNTS.GROUP[0].TILL}
+      business-short-code: "9383028"
+      till: "1234567"
       auth-host: "https://sandbox.safaricom.co.ke/oauth/v1/generate"
       client-key: "0pLxbN83FrOl5Nd0Fh9Zi5BQlMxSL2n5"
       client-secret: "YzuGNoJxeub8ZC6d"
       api-host: "https://sandbox.safaricom.co.ke"
       pass-key: "bfb279f9aa9bdbcf158e97dd71a467cd2e0c893059b10f78e6b72ada1ed2c919"
     - name: "paygops"
-      businessshortcode: ${ACCOUNTS.GROUP[1].SHORTCODE}}
-      till: ${ACCOUNTS.GROUP[1].TILL}}
+      business-short-code: "7385028"
+      till: "1234567"
       auth-host: "https://sandbox.safaricom.co.ke/oauth/v1/generate"
       client-key: "0pLxbN83FrOl5Nd0Fh9Zi5BQlMxSL2n5"
       client-secret: "YzuGNoJxeub8ZC6d"
       api-host: "https://sandbox.safaricom.co.ke"
       pass-key: "bfb279f9aa9bdbcf158e97dd71a467cd2e0c893059b10f78e6b72ada1ed2c919"
     - name: "default"
-      businessshortcode: "7385028"
+      business-short-code: "7385028"
       till: "1234567"
       auth-host: "https://sandbox.safaricom.co.ke/oauth/v1/generate"
       client-key: "0pLxbN83FrOl5Nd0Fh9Zi5BQlMxSL2n5"
