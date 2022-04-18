@@ -38,16 +38,16 @@ mpesa:
 accounts:
   group:
     - name: "roster"
-      business-short-code: ${ACCOUNTS.ROSTER.SHORTCODE:9383028}
-      till: ${ACCOUNTS.ROSTER.TILL:1234567}
+      business-short-code: ${ACCOUNTS.ROSTER.SHORTCODE}
+      till: ${ACCOUNTS.ROSTER.TILL}
       auth-host: "https://sandbox.safaricom.co.ke/oauth/v1/generate"
       client-key: "0pLxbN83FrOl5Nd0Fh9Zi5BQlMxSL2n5"
       client-secret: "YzuGNoJxeub8ZC6d"
       api-host: "https://sandbox.safaricom.co.ke"
       pass-key: "bfb279f9aa9bdbcf158e97dd71a467cd2e0c893059b10f78e6b72ada1ed2c919"
     - name: "paygops"
-      business-short-code: ${ACCOUNTS.PAYGOPS.SHORTCODE:7385028}
-      till: ${ACCOUNTS.PAYGOPS.TILL:1234567}}
+      business-short-code: ${ACCOUNTS.PAYGOPS.SHORTCODE}
+      till: ${ACCOUNTS.PAYGOPS.TILL}
       auth-host: "https://sandbox.safaricom.co.ke/oauth/v1/generate"
       client-key: "0pLxbN83FrOl5Nd0Fh9Zi5BQlMxSL2n5"
       client-secret: "YzuGNoJxeub8ZC6d"

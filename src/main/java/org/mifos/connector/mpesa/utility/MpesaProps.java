@@ -46,16 +46,16 @@ public class MpesaProps {
             return Long.parseLong(businessShortCode);
         }
 
-        public void setBusinessShortCode(Long businessShortCode) {
-            this.businessShortCode = String.valueOf(businessShortCode);
+        public void setBusinessShortCode(String businessShortCode) {
+            this.businessShortCode = businessShortCode;
         }
 
         public Long getTill() {
             return Long.parseLong(till);
         }
 
-        public void setTill(Long till) {
-            this.till = String.valueOf(till);
+        public void setTill(String till) {
+            this.till = till;
         }
 
         public String getAuthHost() {
