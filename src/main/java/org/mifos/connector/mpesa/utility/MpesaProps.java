@@ -26,7 +26,7 @@ public class MpesaProps {
 
         private String name;
         private String businessShortCode;
-        private Long till;
+        private String till;
         private String authHost;
         private String clientKey;
         private String clientSecret;
@@ -51,11 +51,11 @@ public class MpesaProps {
         }
 
         public Long getTill() {
-            return till;
+            return Long.parseLong(till);
         }
 
         public void setTill(Long till) {
-            this.till = till;
+            this.till = String.valueOf(till);
         }
 
         public String getAuthHost() {
