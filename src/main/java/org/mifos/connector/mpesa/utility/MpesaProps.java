@@ -25,7 +25,7 @@ public class MpesaProps {
     public static class MPESA{
 
         private String name;
-        private Long businessShortCode;
+        private String businessShortCode;
         private Long till;
         private String authHost;
         private String clientKey;
@@ -43,11 +43,11 @@ public class MpesaProps {
         }
 
         public Long getBusinessShortCode() {
-            return businessShortCode;
+            return Long.parseLong(businessShortCode);
         }
 
         public void setBusinessShortCode(Long businessShortCode) {
-            this.businessShortCode = businessShortCode;
+            this.businessShortCode = String.valueOf(businessShortCode);
         }
 
         public Long getTill() {
