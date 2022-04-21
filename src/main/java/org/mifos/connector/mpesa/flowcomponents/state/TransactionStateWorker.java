@@ -64,7 +64,7 @@ public class TransactionStateWorker {
                         variables.put(TRANSFER_CREATE_FAILED, false);
                         variables.put(SERVER_TRANSACTION_STATUS_RETRY_COUNT, retryCount);
                         variables.put(SERVER_TRANSACTION_ID, serverTransactionId);
-                        exchange.setProperty(TIMER, variables.get(TIMER));
+                        variables.put(TIMER, variables.get(TIMER));
                     }
                     else {
                         Integer retryCount = 1 + (Integer) variables.getOrDefault(SERVER_TRANSACTION_STATUS_RETRY_COUNT, 0);
