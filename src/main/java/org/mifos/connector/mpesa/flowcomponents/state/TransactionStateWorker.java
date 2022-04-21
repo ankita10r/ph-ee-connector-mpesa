@@ -43,6 +43,9 @@ public class TransactionStateWorker {
     @Value("${zeebe.client.evenly-allocated-max-jobs}")
     private int workerMaxJobs;
 
+    @Value("${skip.enabled}")
+    private Boolean skipMpesa;
+
     @PostConstruct
     public void setupWorkers() {
 
@@ -50,31 +53,41 @@ public class TransactionStateWorker {
                 .jobType("get-transaction-status")
                 .handler((client, job) -> {
                     logger.info("Job '{}' started from process '{}' with key {}", job.getType(), job.getBpmnProcessId(), job.getKey());
-                    Map<String, Object> variables = job.getVariablesAsMap();
-                    Integer retryCount = 1 + (Integer) variables.getOrDefault(SERVER_TRANSACTION_STATUS_RETRY_COUNT, 0);
-                    variables.put(SERVER_TRANSACTION_STATUS_RETRY_COUNT, retryCount);
-                    logger.info("Trying count: " + retryCount);
-                    TransactionChannelC2BRequestDTO channelRequest = objectMapper.readValue(
-                            (String) variables.get("mpesaChannelRequest"), TransactionChannelC2BRequestDTO .class);
-                    BuyGoodsPaymentRequestDTO buyGoodsPaymentRequestDTO = safaricomUtils.channelRequestConvertor(
-                            channelRequest);
-                    Exchange exchange = new DefaultExchange(camelContext);
-                    exchange.setProperty(CORRELATION_ID, variables.get("transactionId"));
-                    exchange.setProperty(TRANSACTION_ID, variables.get("transactionId"));
-                    exchange.setProperty(SERVER_TRANSACTION_ID, variables.get(SERVER_TRANSACTION_ID));
-                    exchange.setProperty(BUY_GOODS_REQUEST_BODY, buyGoodsPaymentRequestDTO);
-                    exchange.setProperty(SERVER_TRANSACTION_STATUS_RETRY_COUNT, retryCount);
-                    exchange.setProperty(ZEEBE_ELEMENT_INSTANCE_KEY, job.getElementInstanceKey());
-                    exchange.setProperty(TIMER, variables.get(TIMER));
-                    exchange.setProperty(DEPLOYED_PROCESS,job.getBpmnProcessId());
 
-                    producerTemplate.send("direct:get-transaction-status-base", exchange);
+                    Map<String, Object> variables = job.getVariablesAsMap();
+                    if(skipMpesa){
+                        logger.info("Skipping MPESA");
+                        Exchange exchange = new DefaultExchange(camelContext);
+                        String serverTransactionId = exchange.getProperty(SERVER_TRANSACTION_ID, String.class);
+                        variables.put(TRANSACTION_FAILED, false);
+                        variables.put(TRANSFER_CREATE_FAILED, false);
+                        variables.put(SERVER_TRANSACTION_ID, serverTransactionId);
+                    }
+                    else {
+                        Integer retryCount = 1 + (Integer) variables.getOrDefault(SERVER_TRANSACTION_STATUS_RETRY_COUNT, 0);
+                        variables.put(SERVER_TRANSACTION_STATUS_RETRY_COUNT, retryCount);
+                        logger.info("Trying count: " + retryCount);
+                        TransactionChannelC2BRequestDTO channelRequest = objectMapper.readValue(
+                                (String) variables.get("mpesaChannelRequest"), TransactionChannelC2BRequestDTO.class);
+                        BuyGoodsPaymentRequestDTO buyGoodsPaymentRequestDTO = safaricomUtils.channelRequestConvertor(
+                                channelRequest);
+                        Exchange exchange = new DefaultExchange(camelContext);
+                        exchange.setProperty(CORRELATION_ID, variables.get("transactionId"));
+                        exchange.setProperty(TRANSACTION_ID, variables.get("transactionId"));
+                        exchange.setProperty(SERVER_TRANSACTION_ID, variables.get(SERVER_TRANSACTION_ID));
+                        exchange.setProperty(BUY_GOODS_REQUEST_BODY, buyGoodsPaymentRequestDTO);
+                        exchange.setProperty(SERVER_TRANSACTION_STATUS_RETRY_COUNT, retryCount);
+                        exchange.setProperty(ZEEBE_ELEMENT_INSTANCE_KEY, job.getElementInstanceKey());
+                        exchange.setProperty(TIMER, variables.get(TIMER));
+                        exchange.setProperty(DEPLOYED_PROCESS, job.getBpmnProcessId());
+
+                        producerTemplate.send("direct:get-transaction-status-base", exchange);
 
                     /*variables.put(STATUS_AVAILABLE, exchange.getProperty(STATUS_AVAILABLE, Boolean.class));
                     if (exchange.getProperty(STATUS_AVAILABLE, Boolean.class)) {
                         variables.put(TRANSACTION_STATUS, exchange.getProperty(TRANSACTION_STATUS, String.class));
                     }*/
-
+                    }
                     client.newCompleteCommand(job.getKey())
                             .send()
                             .join();
