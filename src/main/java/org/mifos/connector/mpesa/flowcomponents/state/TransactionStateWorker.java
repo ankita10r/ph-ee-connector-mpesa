@@ -92,6 +92,7 @@ public class TransactionStateWorker {
                     }*/
                     }
                     client.newCompleteCommand(job.getKey())
+                            .variables(variables)
                             .send()
                             .join();
                 })
