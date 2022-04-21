@@ -59,9 +59,12 @@ public class TransactionStateWorker {
                         logger.info("Skipping MPESA");
                         Exchange exchange = new DefaultExchange(camelContext);
                         String serverTransactionId = exchange.getProperty(SERVER_TRANSACTION_ID, String.class);
+                        Integer retryCount = 1 + (Integer) variables.getOrDefault(SERVER_TRANSACTION_STATUS_RETRY_COUNT, 0);
                         variables.put(TRANSACTION_FAILED, false);
                         variables.put(TRANSFER_CREATE_FAILED, false);
+                        variables.put(SERVER_TRANSACTION_STATUS_RETRY_COUNT, retryCount);
                         variables.put(SERVER_TRANSACTION_ID, serverTransactionId);
+                        exchange.setProperty(TIMER, variables.get(TIMER));
                     }
                     else {
                         Integer retryCount = 1 + (Integer) variables.getOrDefault(SERVER_TRANSACTION_STATUS_RETRY_COUNT, 0);
