@@ -69,10 +69,11 @@ public class TransactionStateWorker {
                         zeebeClient.newPublishMessageCommand()
                                 .messageName(TRANSFER_MESSAGE)
                                 .correlationKey((String) variables.get("transactionId"))
-                                .timeToLive(Duration.ofMillis(30000))
+                                .timeToLive(Duration.ofMillis(300))
                                 .variables(variables)
                                 .send()
                                 .join();
+                        logger.info("Published Variables");
                     }
                     else {
                         Integer retryCount = 1 + (Integer) variables.getOrDefault(SERVER_TRANSACTION_STATUS_RETRY_COUNT, 0);

@@ -74,10 +74,11 @@ public class MpesaWorker {
                         zeebeClient.newPublishMessageCommand()
                                 .messageName(TRANSFER_MESSAGE)
                                 .correlationKey((String) variables.get("transactionId"))
-                                .timeToLive(Duration.ofMillis(30000))
+                                .timeToLive(Duration.ofMillis(300))
                                 .variables(variables)
                                 .send()
                                 .join();
+                        logger.info("Published Variables");
                     }
                     else {
                         TransactionChannelC2BRequestDTO channelRequest = objectMapper.readValue(
