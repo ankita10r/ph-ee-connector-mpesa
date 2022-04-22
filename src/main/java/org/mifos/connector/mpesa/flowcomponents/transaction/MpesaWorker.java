@@ -18,7 +18,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
-import java.time.Duration;
 import java.util.Map;
 
 import static org.mifos.connector.mpesa.camel.config.CamelProperties.*;
@@ -71,14 +70,6 @@ public class MpesaWorker {
                         variables.put(TRANSACTION_FAILED, false);
                         variables.put(TRANSFER_CREATE_FAILED, false);
                         variables.put(SERVER_TRANSACTION_ID, serverTransactionId);
-                        zeebeClient.newPublishMessageCommand()
-                                .messageName(TRANSFER_MESSAGE)
-                                .correlationKey((String) variables.get("transactionId"))
-                                .timeToLive(Duration.ofMillis(300))
-                                .variables(variables)
-                                .send()
-                                .join();
-                        logger.info("Published Variables");
                     }
                     else {
                         TransactionChannelC2BRequestDTO channelRequest = objectMapper.readValue(
