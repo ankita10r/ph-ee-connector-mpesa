@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import javax.annotation.PostConstruct;
+import java.time.Duration;
 import java.util.Map;
 import static org.mifos.connector.mpesa.camel.config.CamelProperties.*;
 import static org.mifos.connector.mpesa.zeebe.ZeebeVariables.*;
@@ -64,7 +65,14 @@ public class TransactionStateWorker {
                         variables.put(TRANSFER_CREATE_FAILED, false);
                         variables.put(SERVER_TRANSACTION_STATUS_RETRY_COUNT, retryCount);
                         variables.put(SERVER_TRANSACTION_ID, serverTransactionId);
-                        variables.put(TIMER, variables.get(TIMER));
+                        exchange.setProperty(TIMER, variables.get(TIMER));
+                        zeebeClient.newPublishMessageCommand()
+                                .messageName(TRANSFER_MESSAGE)
+                                .correlationKey((String) variables.get("transactionId"))
+                                .timeToLive(Duration.ofMillis(30000))
+                                .variables(variables)
+                                .send()
+                                .join();
                     }
                     else {
                         Integer retryCount = 1 + (Integer) variables.getOrDefault(SERVER_TRANSACTION_STATUS_RETRY_COUNT, 0);
@@ -89,13 +97,12 @@ public class TransactionStateWorker {
                     /*variables.put(STATUS_AVAILABLE, exchange.getProperty(STATUS_AVAILABLE, Boolean.class));
                     if (exchange.getProperty(STATUS_AVAILABLE, Boolean.class)) {
                         variables.put(TRANSACTION_STATUS, exchange.getProperty(TRANSACTION_STATUS, String.class));
-                    }*/
-                    }
-                    client.newCompleteCommand(job.getKey())
-                            .variables(variables)
-                            .send()
-                            .join();
-                })
+                    }*/}
+
+                        client.newCompleteCommand(job.getKey())
+                                .send()
+                                .join();
+                    })
                 .name("get-transaction-status")
                 .maxJobsActive(workerMaxJobs)
                 .open();
