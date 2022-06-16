@@ -77,8 +77,9 @@ public class SafaricomUtils {
         buyGoodsPaymentRequestDTO.setTransactionDesc("Payment from account id" +
                 transactionChannelRequestDTO.getPayer()[1].getValue());
         buyGoodsPaymentRequestDTO.setAccountReference("Payment to " + mpesaProps.getBusinessShortCode());
-        logger.info("Values from Safaricom utils: Shortcode - " + mpesaProps.getBusinessShortCode() + " Till -" +
-                mpesaProps.getTill());
+        logger.info("Values from safaricome utils: Shortcode - " + mpesaProps.getBusinessShortCode()
+                + " Till -" + mpesaProps.getTill() + " Key" + mpesaProps.getClientKey() +
+                " Secret" + mpesaProps.getClientSecret());
 
         return buyGoodsPaymentRequestDTO;
     }

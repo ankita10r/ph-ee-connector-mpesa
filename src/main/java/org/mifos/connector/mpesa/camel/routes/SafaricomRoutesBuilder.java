@@ -328,8 +328,9 @@ public class SafaricomRoutesBuilder extends RouteBuilder {
                 .setBody(exchange -> {
                     mpesaProps = mpesaUtils.setMpesaProperties();
                     logger.info("AMS Name in Route " + mpesaProps.getName());
-                    logger.info("Values from safaricome routebuilder: Shortcode - " + mpesaProps.getBusinessShortCode() + " Till -" +
-                            mpesaProps.getTill());
+                    logger.info("Values from safaricome routebuilder: Shortcode - " + mpesaProps.getBusinessShortCode()
+                            + " Till -" + mpesaProps.getTill() + " Key" + mpesaProps.getClientKey() +
+                            " Secret" + mpesaProps.getClientSecret());
                     BuyGoodsPaymentRequestDTO buyGoodsPaymentRequestDTO =
                             (BuyGoodsPaymentRequestDTO) exchange.getProperty(BUY_GOODS_REQUEST_BODY);
 
